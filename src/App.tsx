@@ -8,7 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import Notes from "./pages/Notes";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
-
+import Registration from "./pages/Registration"
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -19,6 +19,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Registration />} />
           <Route path="/" element={<AppLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="notes" element={<Notes />} />

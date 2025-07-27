@@ -7,6 +7,7 @@ import {
   LogOut,
   Settings,
   Users,
+  Bell,
   ChevronLeft,
   ChevronRight
 } from "lucide-react";
@@ -23,11 +24,13 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Badge } from "@/components/ui/badge";
 
 const navigationItems = [
   { title: "Dashboard", url: "/", icon: Home },
   { title: "My Notes", url: "/notes", icon: FileText },
   { title: "Shared Notes", url: "/shared", icon: Users },
+  { title: "Notifications", url: "/notifications", icon: Bell, badge: 3 }, // Sample unread count
   { title: "Analytics", url: "/analytics", icon: BarChart3 },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
@@ -80,10 +83,25 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <NavLink 
                       to={item.url} 
-                      className={getNavCls(isActive(item.url))}
+                      className={`${getNavCls(isActive(item.url))} relative`}
                     >
                       <item.icon className="h-4 w-4" />
-                      {!isCollapsed && <span>{item.title}</span>}
+                      {!isCollapsed && (
+                        <div className="flex items-center justify-between w-full">
+                          <span>{item.title}</span>
+                          {item.badge && item.badge > 0 && (
+                            <Badge className="h-5 min-w-5 text-xs px-1.5 bg-accent text-accent-foreground">
+                              {item.badge}
+                            </Badge>
+                          )}
+                        </div>
+                      )}
+                      {/* Badge for collapsed state */}
+                      {isCollapsed && item.badge && item.badge > 0 && (
+                        <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-xs bg-accent text-accent-foreground">
+                          {item.badge}
+                        </Badge>
+                      )}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
